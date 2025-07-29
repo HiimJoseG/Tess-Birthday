@@ -2,131 +2,168 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday Tessa!</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(to bottom, #ffe6f2, #a0e9ff);
-      overflow: hidden;
+      overflow-x: hidden;
+    }
+
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
+      font-size: 4vw;
     }
 
     #card, #quiz, #result, #bajaBlast, #rating, #trexPage {
       display: none;
       background: rgba(255, 255, 255, 0.95);
-      padding: 20px 30px;
-      border-radius: 15px;
+      padding: 5vw;
+      border-radius: 4vw;
       box-shadow: 0 0 10px #ff69b4;
       text-align: center;
-      max-width: 420px;
+      max-width: 90vw;
       z-index: 1;
     }
 
-    #startBtn, #nextBtn, #restartBtn, #bajaBtn, #backBtn, #ratingBtn, #backToResultBtn, #trexBtn, #backFromTrexBtn {
-      padding: 12px 25px;
+    button {
+      padding: 3vw 6vw;
+      font-size: 4.2vw;
+      border-radius: 2vw;
+      border: none;
+      margin: 2vw;
+      cursor: pointer;
+    }
+
+    #startBtn, #nextBtn, #restartBtn {
       background: #ff69b4;
       color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      margin-top: 10px;
     }
 
     #bajaBtn {
       background: linear-gradient(45deg, #00bcd4, #4fc3f7);
-      margin-left: 10px;
     }
 
     #ratingBtn {
       background: linear-gradient(45deg, #ffd700, #ffb300);
-      margin-left: 10px;
     }
 
     #trexBtn {
       background: linear-gradient(45deg, #e91e63, #f06292);
-      margin-left: 10px;
       animation: bounce 2s infinite;
     }
 
     #backBtn, #backToResultBtn, #backFromTrexBtn {
       background: #6c757d;
+      color: white;
     }
 
     h1 {
       color: #d63384;
+      font-size: 7vw;
     }
 
-    .hello-kitty {
-      width: 120px;
-      margin-bottom: 10px;
+    .hello-kitty,
+    .baja-cup,
+    .trex-fullscreen {
+      max-width: 80vw;
+      width: 100%;
+      height: auto;
+      margin: 3vw 0;
     }
 
-    .emoji-decor {
+    .emoji-decor, .sparkles {
       position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
       z-index: 0;
     }
 
-    .emoji {
+    .emoji, .sparkle {
       position: absolute;
-      font-size: 2rem;
+      font-size: 4vw;
       animation: floatEmoji 12s linear infinite;
       opacity: 0.8;
     }
 
-    @keyframes floatEmoji {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-      }
-      100% {
-        transform: translateY(-10vh) rotate(360deg);
-      }
-    }
-
     .question {
-      margin: 20px 0;
-      font-size: 1.2em;
+      margin: 4vw 0;
+      font-size: 5vw;
     }
 
     .answers button {
-      display: block;
-      margin: 10px auto;
-      padding: 10px 20px;
       background: #ffd6ec;
       border: 2px solid #ff69b4;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1em;
+      font-size: 4vw;
+      display: block;
+      width: 100%;
+      margin: 2vw 0;
     }
 
     #messageBox {
       background: #fff0fa;
       border: 2px dashed #ff69b4;
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 15px;
-      font-size: 1em;
+      padding: 3vw;
+      border-radius: 3vw;
+      margin-top: 3vw;
+      font-size: 3.8vw;
       color: #333;
     }
 
     #timerScore {
-      position: absolute;
-      top: 15px;
-      right: 20px;
+      position: fixed;
+      top: 2vw;
+      right: 3vw;
       color: #d63384;
-      font-size: 1.1em;
+      font-size: 4vw;
       font-weight: bold;
       z-index: 2;
+    }
+
+    .stars {
+      display: flex;
+      justify-content: center;
+      gap: 2vw;
+      margin: 3vw 0;
+    }
+
+    .star {
+      font-size: 8vw;
+      cursor: pointer;
+      color: #ddd;
+    }
+
+    .star.active, .star:hover {
+      color: #ffd700;
+    }
+
+    .rating-message {
+      background: #fff9c4;
+      border: 2px dashed #ffd700;
+      padding: 4vw;
+      border-radius: 3vw;
+      font-size: 4vw;
+      margin-top: 3vw;
+      color: #333;
+    }
+
+    .trex-message {
+      background: #fff0f5;
+      border: 3px dashed #e91e63;
+      padding: 4vw;
+      border-radius: 4vw;
+      font-size: 4.2vw;
+      color: #880e4f;
+      font-weight: bold;
+      margin: 4vw 0;
     }
 
     @keyframes bounce {
@@ -134,117 +171,9 @@
       50% { transform: translateY(-10px); }
     }
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    .baja-cup {
-      width: 200px;
-      margin: 20px auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    #bajaBlast {
-      background: linear-gradient(135deg, #e3f2fd, #b3e5fc);
-      border: 3px solid #00bcd4;
-    }
-
-    #rating {
-      background: linear-gradient(135deg, #fff8e1, #ffecb3);
-      border: 3px solid #ffd700;
-    }
-
-    #trexPage {
-      background: linear-gradient(135deg, #fce4ec, #f8bbd9);
-      border: 3px solid #e91e63;
-      max-width: 90vw;
-      max-height: 90vh;
-      padding: 30px;
-      overflow-y: auto;
-    }
-
-    .stars {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
-    }
-
-    .star {
-      font-size: 2.5rem;
-      cursor: pointer;
-      color: #ddd;
-      transition: color 0.2s;
-    }
-
-    .star:hover,
-    .star.active {
-      color: #ffd700;
-    }
-
-    .rating-message {
-      background: #fff9c4;
-      border: 2px dashed #ffd700;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-      font-size: 1.1em;
-      color: #333;
-      display: none;
-    }
-
-    .button-group {
-      margin-top: 15px;
-    }
-
-    .button-group button {
-      margin: 5px;
-    }
-
-    .trex-fullscreen {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-      border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(233, 30, 99, 0.3);
-      margin: 20px 0;
-      animation: wiggle 3s ease-in-out infinite;
-    }
-
-    @keyframes wiggle {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-2deg); }
-      75% { transform: rotate(2deg); }
-    }
-
-    .trex-message {
-      background: #fff0f5;
-      border: 3px dashed #e91e63;
-      padding: 20px;
-      border-radius: 15px;
-      margin: 20px 0;
-      font-size: 1.2em;
-      color: #880e4f;
-      font-weight: bold;
-    }
-
-    .sparkles {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .sparkle {
-      position: absolute;
-      color: #ff69b4;
-      font-size: 1.5rem;
-      animation: sparkleFloat 4s linear infinite;
+    @keyframes floatEmoji {
+      0% { transform: translateY(100vh) rotate(0deg); }
+      100% { transform: translateY(-10vh) rotate(360deg); }
     }
 
     @keyframes sparkleFloat {
@@ -256,6 +185,27 @@
         transform: translateY(-10vh) rotate(360deg);
         opacity: 0;
       }
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-2deg); }
+      75% { transform: rotate(2deg); }
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2vw;
+      margin-top: 4vw;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
   </style>
 </head>
@@ -320,7 +270,7 @@
 <!-- Baja Blast section -->
 <div id="bajaBlast">
   <h2 style="color: #00bcd4;">🌊 Baja Blast! 🌊</h2>
-  <img class="baja-cup" src="https://www.tacobell.com/images/1027_mountain_dew_baja_blast_1400x800.jpg" alt="Baja Blast Cup" />
+  <img class="baja-cup" src="https://www.thedailymeal.com/img/gallery/the-fast-food-drink-hack-that-requires-2-different-restaurants/intro-1734112137.jpg" alt="Baja Blast Cup" />
   <p style="color: #00695c; font-size: 1.1em;">One of the best drinks out there 🎉</p>
   <p style="color: #00838f;"> 🏝️</p>
   <button id="backBtn">← Back to Results</button>
