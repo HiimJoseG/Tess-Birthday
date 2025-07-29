@@ -105,6 +105,15 @@
       left: 0;
       z-index: -1;
     }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
   </style>
 </head>
 <body>
@@ -118,12 +127,12 @@
   <!-- Start Button -->
   <button id="startBtn">🎁 Click to Open, Tessa!</button>
 
-  <!-- Hello Kitty image added below the start button -->
-  <img class="hello-kitty" src="https://upload.wikimedia.org/wikipedia/en/0/05/Hello_Kitty_character_portrait.png" alt="Hello Kitty" />
+  <!-- Hello Kitty GIF -->
+  <img class="hello-kitty" src="https://media.giphy.com/media/MWSRkVoNaC30A/giphy.gif" alt="Hello Kitty GIF" />
 
   <!-- Birthday Card -->
   <div id="card">
-    <img class="hello-kitty" src="https://upload.wikimedia.org/wikipedia/en/0/05/Hello_Kitty_character_portrait.png" alt="Hello Kitty" />
+    <img class="hello-kitty" src="https://media.giphy.com/media/MWSRkVoNaC30A/giphy.gif" alt="Hello Kitty GIF" />
     <h1>🎉 Happy 16th Birthday, Tessa! 🐚</h1>
     <p>You're awesome, great to talk to, super funny, and you're all around amazing (I think so). Keep being you! 💖</p>
     <div id="messageBox">
@@ -144,168 +153,193 @@
   <div id="result">
     <h2>🎊 You did it! 🎊</h2>
     <p id="scoreText"></p>
+    <!-- Cake Surprise -->
+    <div id="cakeSurprise" style="display:none; flex-direction: column; align-items: center; margin-top: 20px;">
+      <img id="cakeImage" src="https://i.imgur.com/yRZfZUc.png" alt="Pink Cake" style="width: 150px; cursor: pointer; animation: bounce 1.2s infinite;" />
+      <p style="color: #d63384; font-weight: bold;">🎂 Click the cake! 🎂</p>
+    </div>
+
+    <!-- Hidden Message -->
+    <div id="cakeMessage" style="display:none; background: #fff0f9; border: 2px dashed #ff69b4; padding: 15px 25px; border-radius: 12px; font-size: 1.1em; margin-top: 15px; max-width: 400px; text-align: center;">
+      🎉 Surprise! You got everything right — just like you’re getting life right. Keep shining, Tessa! ✨💖<br><br>— Still "The Nerd" 😄
+    </div>
+
     <button id="restartBtn">🔁 Play Again</button>
   </div>
 
-<script>
-  const startBtn = document.getElementById('startBtn');
-  const card = document.getElementById('card');
-  const nextBtn = document.getElementById('nextBtn');
-  const quiz = document.getElementById('quiz');
-  const result = document.getElementById('result');
-  const questionEl = document.getElementById('question');
-  const answersEl = document.getElementById('answers');
-  const scoreText = document.getElementById('scoreText');
-  const restartBtn = document.getElementById('restartBtn');
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const card = document.getElementById('card');
+    const nextBtn = document.getElementById('nextBtn');
+    const quiz = document.getElementById('quiz');
+    const result = document.getElementById('result');
+    const questionEl = document.getElementById('question');
+    const answersEl = document.getElementById('answers');
+    const scoreText = document.getElementById('scoreText');
+    const restartBtn = document.getElementById('restartBtn');
 
-  let questions = [
-    { q: "Which sea creature is a mammal?", options: ["Dolphin", "Starfish", "Jellyfish", "Crab"], answer: "Dolphin" },
-    { q: "What color is Hello Kitty’s bow?", options: ["Red", "Pink", "Blue", "Yellow"], answer: "Red" },
-    { q: "How old are you today?", options: ["15", "16", "17", "18"], answer: "16" },
-    { q: "Which animal makes bubbles underwater?", options: ["Octopus", "Shark", "Dolphin", "Whale"], answer: "Dolphin" },
-    { q: "Which creature glows in the dark?", options: ["Jellyfish", "Crab", "Sea turtle", "Starfish"], answer: "Jellyfish" },
-    { q: "Which is NOT a real sea creature?", options: ["Sea Bunny", "Leafy Sea Dragon", "Ocean Unicorn", "Sea Cucumber"], answer: "Ocean Unicorn" }
-  ];
+    const cakeImage = document.getElementById('cakeImage');
+    const cakeSurprise = document.getElementById('cakeSurprise');
+    const cakeMessage = document.getElementById('cakeMessage');
 
-  let current = 0;
-  let score = 0;
-  let confettiInterval;
+    let questions = [
+      { q: "Which sea creature is a mammal?", options: ["Dolphin", "Starfish", "Jellyfish", "Crab"], answer: "Dolphin" },
+      { q: "What color is Hello Kitty’s bow?", options: ["Red", "Pink", "Blue", "Yellow"], answer: "Red" },
+      { q: "How old are you today?", options: ["15", "16", "17", "18"], answer: "16" },
+      { q: "Which animal makes bubbles underwater?", options: ["Octopus", "Shark", "Dolphin", "Whale"], answer: "Dolphin" },
+      { q: "Which creature glows in the dark?", options: ["Jellyfish", "Crab", "Sea turtle", "Starfish"], answer: "Jellyfish" },
+      { q: "Which is NOT a real sea creature?", options: ["Sea Bunny", "Leafy Sea Dragon", "Ocean Unicorn", "Sea Cucumber"], answer: "Ocean Unicorn" }
+    ];
 
-  startBtn.onclick = () => {
-    startBtn.style.display = 'none';
-    document.querySelector('.hello-kitty').style.display = 'none';
-    card.style.display = 'block';
-  };
+    let current = 0;
+    let score = 0;
+    let confettiInterval;
 
-  nextBtn.onclick = () => {
-    card.style.display = 'none';
-    quiz.style.display = 'block';
-    startQuiz();
-  };
+    startBtn.onclick = () => {
+      startBtn.style.display = 'none';
+      document.querySelector('.hello-kitty').style.display = 'none';
+      card.style.display = 'block';
+    };
 
-  restartBtn.onclick = () => {
-    result.style.display = 'none';
-    startQuiz();
-  };
+    nextBtn.onclick = () => {
+      card.style.display = 'none';
+      quiz.style.display = 'block';
+      startQuiz();
+    };
 
-  function startQuiz() {
-    score = 0;
-    current = 0;
-    questions = [...questions].sort(() => Math.random() - 0.5); // Shuffle questions
-    quiz.style.display = 'block';
-    showQuestion();
-  }
+    restartBtn.onclick = () => {
+      result.style.display = 'none';
+      startQuiz();
+    };
 
-  function showQuestion() {
-    const q = questions[current];
-    questionEl.textContent = q.q;
-    answersEl.innerHTML = "";
-    q.options.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.textContent = opt;
-      btn.onclick = () => {
-        disableButtons();
-        if (opt === q.answer) {
-          btn.style.backgroundColor = 'lightgreen';
-          score++;
-        } else {
-          btn.style.backgroundColor = 'salmon';
-        }
-        setTimeout(() => {
-          current++;
-          if (current < questions.length) {
-            showQuestion();
-          } else {
-            showResult();
-          }
-        }, 1000);
-      };
-      answersEl.appendChild(btn);
-    });
-  }
-
-  function disableButtons() {
-    const buttons = answersEl.querySelectorAll('button');
-    buttons.forEach(b => b.disabled = true);
-  }
-
-  function showResult() {
-    quiz.style.display = 'none';
-    result.style.display = 'block';
-    scoreText.textContent = `You got ${score} out of ${questions.length} correct! 🎉`;
-    startConfetti();
-  }
-
-  // Confetti
-  const canvas = document.getElementById('confetti');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-
-  const confetti = [];
-  for (let i = 0; i < 150; i++) {
-    confetti.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 6 + 2,
-      d: Math.random() * 50,
-      color: `hsl(${Math.random() * 360}, 100%, 75%)`,
-      tilt: Math.random() * 10 - 10,
-      tiltAngle: 0
-    });
-  }
-
-  function drawConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let c of confetti) {
-      ctx.beginPath();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = c.color;
-      ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
-      ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
-      ctx.stroke();
+    function startQuiz() {
+      score = 0;
+      current = 0;
+      questions = [...questions].sort(() => Math.random() - 0.5);
+      cakeSurprise.style.display = 'none';
+      cakeMessage.style.display = 'none';
+      quiz.style.display = 'block';
+      showQuestion();
     }
-    updateConfetti();
-  }
 
-  function updateConfetti() {
-    for (let c of confetti) {
-      c.y += Math.cos(c.d) + 1 + c.r / 2;
-      c.x += Math.sin(c.d);
-      c.tiltAngle += 0.1;
-      c.tilt = Math.sin(c.tiltAngle) * 15;
-      if (c.y > canvas.height) {
-        c.y = -10;
-        c.x = Math.random() * canvas.width;
+    function showQuestion() {
+      const q = questions[current];
+      questionEl.textContent = q.q;
+      answersEl.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => {
+          disableButtons();
+          if (opt === q.answer) {
+            btn.style.backgroundColor = 'lightgreen';
+            score++;
+          } else {
+            btn.style.backgroundColor = 'salmon';
+          }
+          setTimeout(() => {
+            current++;
+            if (current < questions.length) {
+              showQuestion();
+            } else {
+              showResult();
+            }
+          }, 1000);
+        };
+        answersEl.appendChild(btn);
+      });
+    }
+
+    function disableButtons() {
+      const buttons = answersEl.querySelectorAll('button');
+      buttons.forEach(b => b.disabled = true);
+    }
+
+    function showResult() {
+      quiz.style.display = 'none';
+      result.style.display = 'block';
+      scoreText.textContent = `You got ${score} out of ${questions.length} correct! 🎉`;
+      startConfetti();
+
+      if (score === questions.length) {
+        cakeSurprise.style.display = 'flex';
       }
     }
-  }
 
-  function startConfetti() {
-    if (confettiInterval) clearInterval(confettiInterval);
-    confettiInterval = setInterval(drawConfetti, 20);
-  }
+    cakeImage.onclick = () => {
+      cakeMessage.style.display = 'block';
+    };
 
-  // Floating marine emojis (with accessibility)
-  const emojiList = ["🐬", "🐠", "🐙", "🦑", "🐳", "🦀", "🐢", "🪼", "🌊"];
-  const emojiContainer = document.getElementById('emojiDecor');
+    // Confetti setup
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
 
-  for (let i = 0; i < 30; i++) {
-    const e = document.createElement('div');
-    e.classList.add('emoji');
-    e.setAttribute('role', 'img');
-    e.setAttribute('aria-label', 'marine animal');
-    e.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
-    e.style.left = `${Math.random() * 100}%`;
-    e.style.top = `${Math.random() * 100}%`;
-    e.style.animationDuration = `${6 + Math.random() * 6}s`;
-    e.style.fontSize = `${1.5 + Math.random() * 1.5}rem`;
-    emojiContainer.appendChild(e);
-  }
-</script>
+    const confetti = [];
+    for (let i = 0; i < 150; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 50,
+        color: `hsl(${Math.random() * 360}, 100%, 75%)`,
+        tilt: Math.random() * 10 - 10,
+        tiltAngle: 0
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let c of confetti) {
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = c.color;
+        ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+        ctx.stroke();
+      }
+      updateConfetti();
+    }
+
+    function updateConfetti() {
+      for (let c of confetti) {
+        c.y += Math.cos(c.d) + 1 + c.r / 2;
+        c.x += Math.sin(c.d);
+        c.tiltAngle += 0.1;
+        c.tilt = Math.sin(c.tiltAngle) * 15;
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      }
+    }
+
+    function startConfetti() {
+      if (confettiInterval) clearInterval(confettiInterval);
+      confettiInterval = setInterval(drawConfetti, 20);
+    }
+
+    // Floating marine emojis
+    const emojiList = ["🐬", "🐠", "🐙", "🦑", "🐳", "🦀", "🐢", "🪼", "🌊"];
+    const emojiContainer = document.getElementById('emojiDecor');
+    for (let i = 0; i < 30; i++) {
+      const e = document.createElement('div');
+      e.classList.add('emoji');
+      e.setAttribute('role', 'img');
+      e.setAttribute('aria-label', 'marine animal');
+      e.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
+      e.style.left = `${Math.random() * 100}%`;
+      e.style.top = `${Math.random() * 100}%`;
+      e.style.animationDuration = `${6 + Math.random() * 6}s`;
+      e.style.fontSize = `${1.5 + Math.random() * 1.5}rem`;
+      emojiContainer.appendChild(e);
+    }
+  </script>
 </body>
 </html>
+
