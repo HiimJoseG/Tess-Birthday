@@ -16,7 +16,7 @@
       flex-direction: column;
     }
 
-    #card, #quiz, #result, #bajaBlast, #rating {
+    #card, #quiz, #result, #bajaBlast, #rating, #trexPage {
       display: none;
       background: rgba(255, 255, 255, 0.95);
       padding: 20px 30px;
@@ -27,7 +27,7 @@
       z-index: 1;
     }
 
-    #startBtn, #nextBtn, #restartBtn, #bajaBtn, #backBtn, #ratingBtn, #backToResultBtn {
+    #startBtn, #nextBtn, #restartBtn, #bajaBtn, #backBtn, #ratingBtn, #backToResultBtn, #trexBtn, #backFromTrexBtn {
       padding: 12px 25px;
       background: #ff69b4;
       color: white;
@@ -48,7 +48,13 @@
       margin-left: 10px;
     }
 
-    #backBtn, #backToResultBtn {
+    #trexBtn {
+      background: linear-gradient(45deg, #e91e63, #f06292);
+      margin-left: 10px;
+      animation: bounce 2s infinite;
+    }
+
+    #backBtn, #backToResultBtn, #backFromTrexBtn {
       background: #6c757d;
     }
 
@@ -152,6 +158,15 @@
       border: 3px solid #ffd700;
     }
 
+    #trexPage {
+      background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+      border: 3px solid #e91e63;
+      max-width: 90vw;
+      max-height: 90vh;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
     .stars {
       display: flex;
       justify-content: center;
@@ -189,6 +204,59 @@
     .button-group button {
       margin: 5px;
     }
+
+    .trex-fullscreen {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(233, 30, 99, 0.3);
+      margin: 20px 0;
+      animation: wiggle 3s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-2deg); }
+      75% { transform: rotate(2deg); }
+    }
+
+    .trex-message {
+      background: #fff0f5;
+      border: 3px dashed #e91e63;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+      font-size: 1.2em;
+      color: #880e4f;
+      font-weight: bold;
+    }
+
+    .sparkles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      color: #ff69b4;
+      font-size: 1.5rem;
+      animation: sparkleFloat 4s linear infinite;
+    }
+
+    @keyframes sparkleFloat {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -209,14 +277,14 @@
        style="width: 120px; margin-bottom: 10px;" />
   <img class="hello-kitty" src="https://media.giphy.com/media/MWSRkVoNaC30A/giphy.gif" alt="Hello Kitty GIF" />
   <h1>🎉 Happy 16th Birthday, Tess! 🐚</h1>
-  <p>You're awesome, great to talk to, super funny, and you're all around amazing (I think so). Keep being you! 💖</p>
+  <p>You're awesome, great to talk to, super funny, and you're all around amazing (I think so). Hope you get better at fort. Keep being you! 💖</p>
   <div id="messageBox">
 
-    Hey T,<br />
-    Hope you have a great day (and birthday) also hope you pass that test! May your year be filled with joy, friends, and the courage to follow through with your goals. 🌊💙<br />
-    — Computer nerd
+    Hey Tessa,<br />
+    Hope you have a great day (and birthday) also hope you pass that test ON FRIDAYYY! May your year continue to be filled with joy, friends, and the courage to follow through with your goals. Keep  being awesome as well. Stay grinding on fortnite twin. 🌊💙<br />
+    — Jose
   </div>
-  <button id="nextBtn"> Wanna take a random quiz??? 🎮</button>
+  <button id="nextBtn"> Woahhh Random quiz option??? 🎮</button>
 </div>
 
 <div id="quiz">
@@ -244,13 +312,14 @@
     <button id="restartBtn">🔁 Play Again</button>
     <button id="bajaBtn">🥤 Baja Blast Time!</button>
     <button id="ratingBtn">⭐ Rate This Quiz!</button>
+    <button id="trexBtn">🦕 T-Rex Surprise!</button>
   </div>
 </div>
 
 <!-- Baja Blast section -->
 <div id="bajaBlast">
   <h2 style="color: #00bcd4;">🌊 Baja Blast! 🌊</h2>
-  <img class="baja-cup" src="https://www.thedailymeal.com/img/gallery/the-fast-food-drink-hack-that-requires-2-different-restaurants/intro-1734112137.jpg" alt="Baja Blast Cup" />
+  <img class="baja-cup" src="https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80" alt="Baja Blast Cup" />
   <p style="color: #00695c; font-size: 1.1em;">The ultimate birthday drink! 🎉</p>
   <p style="color: #00838f;">Nothing says celebration like that tropical blast flavor! 🏝️</p>
   <button id="backBtn">← Back to Results</button>
@@ -274,6 +343,23 @@
   <button id="backToResultBtn">← Back to Results</button>
 </div>
 
+<!-- T-Rex in Pink Tutu Full Page -->
+<div id="trexPage">
+  <div class="sparkles" id="sparkles"></div>
+  <h1 style="color: #e91e63; font-size: 2.5em;">🦕✨ SURPRISE! ✨🦕</h1>
+  <img class="trex-fullscreen" src="https://media.craiyon.com/2025-04-27/xaYEbeUET5yJxMJYLy--jQ.webp" alt="T-Rex in Pink Tutu" />
+  
+  <div class="trex-message">
+    🎀 Meet Terry the T-Rex! 🎀<br/>
+  </div>
+  
+  <p style="color: #ad1457; font-size: 1.3em; margin: 20px 0;">
+    🌟 You've unlocked the ultimate birthday surprise! 🌟
+  </p>
+  
+  <button id="backFromTrexBtn">← Back to Results</button>
+</div>
+
 <script>
   const startBtn = document.getElementById('startBtn');
   const card = document.getElementById('card');
@@ -282,14 +368,17 @@
   const result = document.getElementById('result');
   const bajaBlast = document.getElementById('bajaBlast');
   const rating = document.getElementById('rating');
+  const trexPage = document.getElementById('trexPage');
   const questionEl = document.getElementById('question');
   const answersEl = document.getElementById('answers');
   const scoreText = document.getElementById('scoreText');
   const restartBtn = document.getElementById('restartBtn');
   const bajaBtn = document.getElementById('bajaBtn');
   const ratingBtn = document.getElementById('ratingBtn');
+  const trexBtn = document.getElementById('trexBtn');
   const backBtn = document.getElementById('backBtn');
   const backToResultBtn = document.getElementById('backToResultBtn');
+  const backFromTrexBtn = document.getElementById('backFromTrexBtn');
   const cakeImage = document.getElementById('cakeImage');
   const cakeSurprise = document.getElementById('cakeSurprise');
   const cakeMessage = document.getElementById('cakeMessage');
@@ -298,6 +387,7 @@
   const liveScoreEl = document.getElementById('liveScore');
   const starRating = document.getElementById('starRating');
   const ratingMessage = document.getElementById('ratingMessage');
+  const sparkles = document.getElementById('sparkles');
 
   const questions = [
     { q: "Which sea creature is a mammal?", options: ["Dolphin", "Starfish", "Jellyfish", "Crab"], answer: "Dolphin" },
@@ -310,6 +400,7 @@
     { q: "Which animal is called the 'sea cow'?", options: ["Manatee", "Dolphin", "Seal", "Otter"], answer: "Manatee" },
     { q: "Which marine animal has a shell?", options: ["Sea turtle", "Shark", "Octopus", "Jellyfish"], answer: "Sea turtle" },
     { q: "Which creature is a crustacean?", options: ["Crab", "Whale", "Shark", "Sea cucumber"], answer: "Crab" }
+
   ];
 
   let current = 0, score = 0, seconds = 0, timerInterval;
@@ -340,6 +431,7 @@
     result.style.display = 'none';
     bajaBlast.style.display = 'none';
     rating.style.display = 'none';
+    trexPage.style.display = 'none';
     startQuiz();
   };
 
@@ -353,6 +445,12 @@
     rating.style.display = 'block';
   };
 
+  trexBtn.onclick = () => {
+    result.style.display = 'none';
+    trexPage.style.display = 'block';
+    startSparkles();
+  };
+
   backBtn.onclick = () => {
     bajaBlast.style.display = 'none';
     result.style.display = 'block';
@@ -363,9 +461,30 @@
     result.style.display = 'block';
   };
 
+  backFromTrexBtn.onclick = () => {
+    trexPage.style.display = 'none';
+    result.style.display = 'block';
+  };
+
   cakeImage.onclick = () => {
     cakeMessage.style.display = 'block';
   };
+
+  // Sparkles for T-Rex page
+  function startSparkles() {
+    sparkles.innerHTML = '';
+    const sparkleSymbols = ['✨', '💖', '🎀', '💕', '⭐', '🌟'];
+    
+    for (let i = 0; i < 20; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.textContent = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
+      sparkle.style.left = `${Math.random() * 100}%`;
+      sparkle.style.animationDelay = `${Math.random() * 4}s`;
+      sparkle.style.animationDuration = `${3 + Math.random() * 2}s`;
+      sparkles.appendChild(sparkle);
+    }
+  }
 
   // Rating system
   const stars = document.querySelectorAll('.star');
@@ -406,11 +525,11 @@
     stars[rating - 1].classList.add('clicked');
     
     const messages = {
-      1: "Rude </3",
-      2: "Not great.",
-      3: "Room for improvement.",
-      4: "Glad you enjoyed it!",
-      5: "You're the best, Tessa! Thanks for playing!"
+      1: "😅 Ouch! I'll try to make it better next time!",
+      2: "😐 Not great, but thanks for the feedback!",
+      3: "😊 Pretty good! Room for improvement though.",
+      4: "😄 Awesome! Glad you enjoyed it!",
+      5: "🎉 Amazing! You're the best, Tessa! Thanks for playing!"
     };
     
     ratingMessage.textContent = messages[rating];
