@@ -16,7 +16,7 @@
       flex-direction: column;
     }
 
-    #card, #quiz, #result, #bajaBlast, #rating, #trexPage {
+    #card, #quiz, #result, #bajaBlast, #rating, #trexPage, #pongPage {
       display: none;
       background: rgba(255, 255, 255, 0.95);
       padding: 20px 30px;
@@ -27,35 +27,80 @@
       z-index: 1;
     }
 
-    #startBtn, #nextBtn, #restartBtn, #bajaBtn, #backBtn, #ratingBtn, #backToResultBtn, #trexBtn, #backFromTrexBtn {
+    #startBtn, #nextBtn, #restartBtn, #bajaBtn, #backBtn, #ratingBtn, #backToResultBtn, #trexBtn, #backFromTrexBtn, #pongBtn, #backFromPongBtn, #pongRestartBtn {
       padding: 12px 25px;
-      background: #8bd9d1;
       color: white;
-      border: 2px solid #1dcbf2;
       border-radius: 8px;
       font-size: 1em;
       cursor: pointer;
       margin-top: 10px;
+      border: 2px solid transparent;
+    }
+
+    #startBtn {
+      background: #26a69a;
+      border-color: #00695c;
+    }
+
+    #nextBtn {
+      background: #f06292;
+      border-color: #c2185b;
+    }
+
+    #restartBtn {
+      background: #4db6ac;
+      border-color: #00897b;
     }
 
     #bajaBtn {
-      background: linear-gradient(45deg, #00bcd4, #4fc3f7);
+      background: #ec407a;
+      border-color: #ad1457;
       margin-left: 10px;
     }
 
     #ratingBtn {
-      background: linear-gradient(45deg, #ffd700, #ffb300);
+      background: #80cbc4;
+      border-color: #00796b;
       margin-left: 10px;
     }
 
     #trexBtn {
-      background: linear-gradient(45deg, #e91e63, #f06292);
+      background: #ff8fab;
+      border-color: #e91e63;
       margin-left: 10px;
       animation: bounce 2s infinite;
     }
 
-    #backBtn, #backToResultBtn, #backFromTrexBtn {
-      background: #6c757d;
+    #pongBtn {
+      background: #26c6da;
+      border-color: #00838f;
+      margin-left: 10px;
+    }
+
+    #backBtn {
+      background: #4dd0e1;
+      border-color: #0097a7;
+    }
+
+    #backToResultBtn {
+      background: #f48fb1;
+      border-color: #d81b60;
+    }
+
+    #backFromTrexBtn {
+      background: #00897b;
+      border-color: #004d40;
+    }
+
+    #backFromPongBtn {
+      background: #ff69b4;
+      border-color: #c2185b;
+    }
+
+    #pongRestartBtn {
+      background: #4fc3c9;
+      border-color: #007c85;
+      margin-left: 10px;
     }
 
     h1 {
@@ -119,6 +164,45 @@
       color: #333;
     }
 
+    #musicPlayer {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(45deg, #ff8fab, #4dd0e1);
+      padding: 8px 14px;
+      border-radius: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    #musicToggle {
+      background: white;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 0.9em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #musicLabel {
+      color: white;
+      font-size: 0.85em;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    #musicVolume {
+      width: 60px;
+      cursor: pointer;
+    }
+
     #timerScore {
       position: absolute;
       top: 15px;
@@ -165,6 +249,35 @@
       max-height: 90vh;
       padding: 30px;
       overflow-y: auto;
+    }
+
+    #pongPage {
+      background: linear-gradient(135deg, #ede7f6, #d1c4e9);
+      border: 3px solid #7c4dff;
+      max-width: 90vw;
+      padding: 25px;
+    }
+
+    #pongCanvas {
+      position: static;
+      background: #1a1a2e;
+      border-radius: 10px;
+      border: 3px solid #7c4dff;
+      display: block;
+      margin: 15px auto;
+      touch-action: none;
+    }
+
+    #pongScoreText {
+      color: #4527a0;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    #pongHint {
+      color: #5e35b1;
+      font-size: 0.9em;
+      margin-top: 5px;
     }
 
     .stars {
@@ -264,6 +377,15 @@
 <canvas id="confetti"></canvas>
 <div class="emoji-decor" id="emojiDecor"></div>
 
+<div id="musicPlayer">
+  <button id="musicToggle">▶️</button>
+  <span id="musicLabel">🎵 Somethin' Stupid</span>
+  <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5" />
+</div>
+<audio id="bgMusic" loop preload="none">
+  <source src="somethin-stupid.mp3" type="audio/mpeg">
+</audio>
+
 <div id="timerScore" style="display:none;">
   Time: <span id="timer">0</span>s  Score: <span id="liveScore">0</span>/10
 </div>
@@ -313,10 +435,10 @@
     <button id="bajaBtn">Click this...!</button>
     <button id="ratingBtn">⭐ Rate This Quiz!</button>
     <button id="trexBtn">🦕 T-Rex Surprise!</button>
+    <button id="pongBtn">🏓 Play Pong!</button>
   </div>
 </div>
 
-<!-- Baja Blast section -->
 <div id="bajaBlast">
   <h2 style="color: #00bcd4;">🌊 The goat! 🌊</h2>
   <img class="baja-cup" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3YwOWNvaTJhdDE2bG9oMHB4aXU3ajNidGk3M3EweDZ1eXd4aW1kOSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/eSXWBGl2XB2UCmbfpl/giphy.gif" alt="Baja Blast Cup" />
@@ -325,7 +447,6 @@
   <button id="backBtn">← Back to Results</button>
 </div>
 
-<!-- Rating section -->
 <div id="rating">
   <h2 style="color: #ff8f00;">🦈 Rate This Quiz! 🦈</h2>
   <p style="color: #e65100;">How did you like the birthday quiz experience?</p>
@@ -343,7 +464,6 @@
   <button id="backToResultBtn">← Back to Results</button>
 </div>
 
-<!-- T-Rex in Pink Tutu Full Page -->
 <div id="trexPage">
   <div class="sparkles" id="sparkles"></div>
   <h1 style="color: #e91e63; font-size: 2.5em;">🦕✨ SURPRISE! ✨🦕</h1>
@@ -360,7 +480,38 @@
   <button id="backFromTrexBtn">← Back to Results</button>
 </div>
 
+<div id="pongPage">
+  <h2 style="color: #4527a0;">🏓 Birthday Pong! 🏓</h2>
+  <p id="pongScoreText">You: 0  &nbsp;—&nbsp;  CPU: 0</p>
+  <canvas id="pongCanvas" width="360" height="220"></canvas>
+  <p id="pongHint">Move your mouse/finger over the board to move your paddle. First to 5 wins!</p>
+  <div class="button-group">
+    <button id="pongRestartBtn">🔁 Restart Pong</button>
+    <button id="backFromPongBtn">← Back to Results</button>
+  </div>
+</div>
+
 <script>
+  const musicToggle = document.getElementById('musicToggle');
+  const musicVolume = document.getElementById('musicVolume');
+  const bgMusic = document.getElementById('bgMusic');
+
+  bgMusic.volume = musicVolume.value;
+
+  musicToggle.onclick = () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicToggle.textContent = '⏸️';
+    } else {
+      bgMusic.pause();
+      musicToggle.textContent = '▶️';
+    }
+  };
+
+  musicVolume.oninput = () => {
+    bgMusic.volume = musicVolume.value;
+  };
+
   const startBtn = document.getElementById('startBtn');
   const card = document.getElementById('card');
   const nextBtn = document.getElementById('nextBtn');
@@ -369,6 +520,7 @@
   const bajaBlast = document.getElementById('bajaBlast');
   const rating = document.getElementById('rating');
   const trexPage = document.getElementById('trexPage');
+  const pongPage = document.getElementById('pongPage');
   const questionEl = document.getElementById('question');
   const answersEl = document.getElementById('answers');
   const scoreText = document.getElementById('scoreText');
@@ -376,9 +528,12 @@
   const bajaBtn = document.getElementById('bajaBtn');
   const ratingBtn = document.getElementById('ratingBtn');
   const trexBtn = document.getElementById('trexBtn');
+  const pongBtn = document.getElementById('pongBtn');
   const backBtn = document.getElementById('backBtn');
   const backToResultBtn = document.getElementById('backToResultBtn');
   const backFromTrexBtn = document.getElementById('backFromTrexBtn');
+  const backFromPongBtn = document.getElementById('backFromPongBtn');
+  const pongRestartBtn = document.getElementById('pongRestartBtn');
   const cakeImage = document.getElementById('cakeImage');
   const cakeSurprise = document.getElementById('cakeSurprise');
   const cakeMessage = document.getElementById('cakeMessage');
@@ -405,7 +560,6 @@
 
   let current = 0, score = 0, seconds = 0, timerInterval;
 
-  // Shuffle function
   function shuffle(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -432,6 +586,8 @@
     bajaBlast.style.display = 'none';
     rating.style.display = 'none';
     trexPage.style.display = 'none';
+    pongPage.style.display = 'none';
+    stopPong();
     startQuiz();
   };
 
@@ -451,6 +607,12 @@
     startSparkles();
   };
 
+  pongBtn.onclick = () => {
+    result.style.display = 'none';
+    pongPage.style.display = 'block';
+    startPong();
+  };
+
   backBtn.onclick = () => {
     bajaBlast.style.display = 'none';
     result.style.display = 'block';
@@ -466,11 +628,20 @@
     result.style.display = 'block';
   };
 
+  backFromPongBtn.onclick = () => {
+    pongPage.style.display = 'none';
+    result.style.display = 'block';
+    stopPong();
+  };
+
+  pongRestartBtn.onclick = () => {
+    startPong();
+  };
+
   cakeImage.onclick = () => {
     cakeMessage.style.display = 'block';
   };
 
-  // Sparkles for T-Rex page
   function startSparkles() {
     sparkles.innerHTML = '';
     const sparkleSymbols = ['🐠', '💖', '🎀', '💕', '🐟', '🌟'];
@@ -486,7 +657,6 @@
     }
   }
 
-  // Rating system
   const stars = document.querySelectorAll('.star');
   stars.forEach(star => {
     star.addEventListener('click', () => {
@@ -560,7 +730,7 @@
     questionEl.textContent = q.q;
     answersEl.innerHTML = "";
     
-    // Shuffle the answer options
+
     const shuffledOptions = shuffle(q.options);
     
     shuffledOptions.forEach(opt => {
@@ -603,7 +773,6 @@
     }
   }
 
-  // Pink confetti setup
   const canvas = document.getElementById('confetti');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
@@ -656,7 +825,6 @@
     setInterval(drawConfetti, 20);
   }
 
-  // Floating emojis
   const emojiList = ["🐬", "🐠", "🐙", "🦖", "🐳", "🦀", "🎓", "🪼", "🌊"];
   const emojiContainer = document.getElementById('emojiDecor');
   for (let i = 0; i < 30; i++) {
@@ -668,6 +836,158 @@
     e.style.animationDuration = `${6 + Math.random() * 6}s`;
     e.style.fontSize = `${1.5 + Math.random() * 1.5}rem`;
     emojiContainer.appendChild(e);
+  }
+
+  const pongCanvas = document.getElementById('pongCanvas');
+  const pctx = pongCanvas.getContext('2d');
+  const pongScoreText = document.getElementById('pongScoreText');
+  const PONG_W = pongCanvas.width;
+  const PONG_H = pongCanvas.height;
+  const PADDLE_W = 10, PADDLE_H = 50, BALL_R = 6;
+  let pongAnimId = null;
+
+  let pong = {
+    playerY: PONG_H / 2 - PADDLE_H / 2,
+    cpuY: PONG_H / 2 - PADDLE_H / 2,
+    ballX: PONG_W / 2,
+    ballY: PONG_H / 2,
+    ballVX: 3,
+    ballVY: 2,
+    playerScore: 0,
+    cpuScore: 0,
+    gameOver: false
+  };
+
+  function resetPongBall(direction) {
+    pong.ballX = PONG_W / 2;
+    pong.ballY = PONG_H / 2;
+    pong.ballVX = 3 * direction;
+    pong.ballVY = (Math.random() > 0.5 ? 1 : -1) * (1.5 + Math.random() * 1.5);
+  }
+
+  function pongPointerHandler(e) {
+    const rect = pongCanvas.getBoundingClientRect();
+    let clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientY = e.touches[0].clientY;
+    } else {
+      clientY = e.clientY;
+    }
+    const y = clientY - rect.top;
+    pong.playerY = Math.min(Math.max(y - PADDLE_H / 2, 0), PONG_H - PADDLE_H);
+  }
+
+  pongCanvas.addEventListener('mousemove', pongPointerHandler);
+  pongCanvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    pongPointerHandler(e);
+  }, { passive: false });
+
+  function startPong() {
+    pong.playerY = PONG_H / 2 - PADDLE_H / 2;
+    pong.cpuY = PONG_H / 2 - PADDLE_H / 2;
+    pong.playerScore = 0;
+    pong.cpuScore = 0;
+    pong.gameOver = false;
+    resetPongBall(Math.random() > 0.5 ? 1 : -1);
+    pongScoreText.textContent = `You: 0  —  CPU: 0`;
+    if (pongAnimId) cancelAnimationFrame(pongAnimId);
+    pongLoop();
+  }
+
+  function stopPong() {
+    if (pongAnimId) cancelAnimationFrame(pongAnimId);
+    pongAnimId = null;
+  }
+
+  function pongLoop() {
+    if (!pong.gameOver) {
+      updatePong();
+    }
+    drawPong();
+    pongAnimId = requestAnimationFrame(pongLoop);
+  }
+
+  function updatePong() {
+
+    pong.ballX += pong.ballVX;
+    pong.ballY += pong.ballVY;
+
+    if (pong.ballY - BALL_R < 0 || pong.ballY + BALL_R > PONG_H) {
+      pong.ballVY *= -1;
+    }
+
+    const cpuCenter = pong.cpuY + PADDLE_H / 2;
+    const targetY = pong.ballY;
+    if (cpuCenter < targetY - 10) pong.cpuY += 2.6;
+    else if (cpuCenter > targetY + 10) pong.cpuY -= 2.6;
+    pong.cpuY = Math.min(Math.max(pong.cpuY, 0), PONG_H - PADDLE_H);
+
+    if (pong.ballX - BALL_R < PADDLE_W + 4 &&
+        pong.ballY > pong.playerY &&
+        pong.ballY < pong.playerY + PADDLE_H &&
+        pong.ballVX < 0) {
+      pong.ballVX *= -1.05;
+      const hitPos = (pong.ballY - (pong.playerY + PADDLE_H / 2)) / (PADDLE_H / 2);
+      pong.ballVY += hitPos * 1.5;
+    }
+
+    if (pong.ballX + BALL_R > PONG_W - PADDLE_W - 4 &&
+        pong.ballY > pong.cpuY &&
+        pong.ballY < pong.cpuY + PADDLE_H &&
+        pong.ballVX > 0) {
+      pong.ballVX *= -1.05;
+      const hitPos = (pong.ballY - (pong.cpuY + PADDLE_H / 2)) / (PADDLE_H / 2);
+      pong.ballVY += hitPos * 1.5;
+    }
+
+    pong.ballVX = Math.max(Math.min(pong.ballVX, 9), -9);
+    pong.ballVY = Math.max(Math.min(pong.ballVY, 6), -6);
+
+    if (pong.ballX < 0) {
+      pong.cpuScore++;
+      pongScoreText.textContent = `You: ${pong.playerScore}  —  CPU: ${pong.cpuScore}`;
+      checkPongWin();
+      if (!pong.gameOver) resetPongBall(1);
+    } else if (pong.ballX > PONG_W) {
+      pong.playerScore++;
+      pongScoreText.textContent = `You: ${pong.playerScore}  —  CPU: ${pong.cpuScore}`;
+      checkPongWin();
+      if (!pong.gameOver) resetPongBall(-1);
+    }
+  }
+
+  function checkPongWin() {
+    if (pong.playerScore >= 5) {
+      pong.gameOver = true;
+      pongScoreText.textContent = `🎉 You win, Tessa! ${pong.playerScore} — ${pong.cpuScore} 🎉`;
+    } else if (pong.cpuScore >= 5) {
+      pong.gameOver = true;
+      pongScoreText.textContent = `CPU wins this round! ${pong.playerScore} — ${pong.cpuScore}. Try again!`;
+    }
+  }
+
+  function drawPong() {
+    pctx.fillStyle = '#1a1a2e';
+    pctx.fillRect(0, 0, PONG_W, PONG_H);
+
+    pctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    pctx.setLineDash([6, 6]);
+    pctx.beginPath();
+    pctx.moveTo(PONG_W / 2, 0);
+    pctx.lineTo(PONG_W / 2, PONG_H);
+    pctx.stroke();
+    pctx.setLineDash([]);
+
+    pctx.fillStyle = '#b388ff';
+    pctx.fillRect(4, pong.playerY, PADDLE_W, PADDLE_H);
+    pctx.fillStyle = '#ff8fab';
+    pctx.fillRect(PONG_W - PADDLE_W - 4, pong.cpuY, PADDLE_W, PADDLE_H);
+
+    pctx.beginPath();
+    pctx.fillStyle = '#ffffff';
+    pctx.arc(pong.ballX, pong.ballY, BALL_R, 0, Math.PI * 2);
+    pctx.fill();
   }
 </script>
 </body>
