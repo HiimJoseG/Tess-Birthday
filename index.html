@@ -7,7 +7,7 @@
     body {
       margin: 0;
       font-family: 'Comic Sans MS', cursive;
-      background: linear-gradient(to bottom, #63bfb6, #ff1493);
+      background: linear-gradient(to bottom, #63bfb6, #19443C, #ff1493);
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -390,16 +390,16 @@
   const sparkles = document.getElementById('sparkles');
 
   const questions = [
-    { q: "Which sea creature is a mammal?", options: ["Dolphin", "Starfish", "Jellyfish", "Crab"], answer: "Dolphin" },
+    { q: "How many hearts does an octopus have?", options: ["1!", "50!", "5!", "3!"], answer: "3!" },
     { q: "What color is Hello Kitty's bow?", options: ["Red", "Pink", "Blue", "Yellow"], answer: "Red" },
     { q: "Which marine animal can change color?", options: ["Octopus", "Shark", "Dolphin", "Whale"], answer: "Octopus" },
-    { q: "Which creature glows in the dark?", options: ["Jellyfish", "Crab", "Sea turtle", "Starfish"], answer: "Jellyfish" },
+    { q: "Which ocean zone is in complete darkness and lies below the photic zone?", options: ["Abyssal zone", "Usagi Zone", "Neritic zone", "Epipelagic zone"], answer: "Abyssal Zone" },
     { q: "Which is NOT a real sea creature?", options: ["Sea Bunny", "Leafy Sea Dragon", "Ocean Unicorn", "Sea Cucumber"], answer: "Ocean Unicorn" },
     { q: "Which Hello Kitty character is her twin?", options: ["Mimmy", "Dear Daniel", "Badtz-Maru", "My Melody"], answer: "Mimmy" },
     { q: "What creature has eight arms?", options: ["Octopus", "Starfish", "Squid", "Crab"], answer: "Octopus" },
     { q: "Which animal is called the 'sea cow'?", options: ["Manatee", "Dolphin", "Seal", "Otter"], answer: "Manatee" },
     { q: "Which marine animal has a shell?", options: ["Sea turtle", "Shark", "Octopus", "Jellyfish"], answer: "Sea turtle" },
-    { q: "Which creature is a crustacean?", options: ["Crab", "Whale", "Shark", "Sea cucumber"], answer: "Crab" }
+    { q: "Which of these animals belongs to the dolphin family (Delphinidae)?", options: ["Orca", "Blue Whale", "Walrus", "Beluga Whale"], answer: "Crab" }
 
   ];
 
@@ -473,7 +473,7 @@
   // Sparkles for T-Rex page
   function startSparkles() {
     sparkles.innerHTML = '';
-    const sparkleSymbols = ['✨', '💖', '🎀', '💕', '⭐', '🌟'];
+    const sparkleSymbols = ['🐠', '💖', '🎀', '💕', '🐟', '🌟'];
     
     for (let i = 0; i < 20; i++) {
       const sparkle = document.createElement('div');
@@ -525,11 +525,11 @@
     stars[rating - 1].classList.add('clicked');
     
     const messages = {
-      1: "So, you hate me.",
-      2: "Wow, Rude",
-      3: "Room for improvementh.",
-      4: "Glad you enjoyed it!",
-      5: "You're the best, Tessa! Thanks for playing!"
+      1: "So, you still hate me.",
+      2: "Wow, that's a bit harsh",
+      3: "Glad to know it was decent.",
+      4: "I'll do better next time.",
+      5: "You're the best, Tessa! Thanks for being you!"
     };
     
     ratingMessage.textContent = messages[rating];
@@ -657,7 +657,7 @@
   }
 
   // Floating emojis
-  const emojiList = ["🐬", "🐠", "🐙", "🦑", "🐳", "🦀", "🐢", "🪼", "🌊"];
+  const emojiList = ["🐬", "🐠", "🐙", "🦖", "🐳", "🦀", "🎓", "🪼", "🌊"];
   const emojiContainer = document.getElementById('emojiDecor');
   for (let i = 0; i < 30; i++) {
     const e = document.createElement('div');
