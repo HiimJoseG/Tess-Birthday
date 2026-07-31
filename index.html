@@ -7,7 +7,7 @@
     body {
       margin: 0;
       font-family: 'Comic Sans MS', cursive;
-      background: linear-gradient(to bottom, #63bfb6, #FFB6C1);
+      background: linear-gradient(to bottom, #7cd6cc, #FFC8D6);
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -135,8 +135,8 @@
     }
 
     #yesBtn {
-      background: #66bb6a;
-      border-color: #2e7d32;
+      background: #26a69a;
+      border-color: #00695c;
     }
 
     #backToStartBtn {
@@ -146,8 +146,8 @@
     }
 
     #noBtn {
-      background: #ef5350;
-      border-color: #b71c1c;
+      background: #f06292;
+      border-color: #c2185b;
       position: absolute;
     }
 
@@ -195,11 +195,22 @@
       display: block;
       margin: 10px auto;
       padding: 10px 20px;
-      background: #ffd6ec;
-      border: 2px solid #ff69b4;
       border-radius: 8px;
       cursor: pointer;
       font-size: 1em;
+      border: 2px solid;
+    }
+
+    .answers button.answer-pink {
+      background: #ffd6ec;
+      border-color: #ff69b4;
+      color: #ad1457;
+    }
+
+    .answers button.answer-teal {
+      background: #b2f7ef;
+      border-color: #26a69a;
+      color: #00695c;
     }
 
     #messageBox {
@@ -228,7 +239,7 @@
       max-width: 90vw;
     }
 
-    #musicToggle, #musicNext {
+    #musicToggle, #musicNext, #musicShuffle {
       background: white;
       border: none;
       border-radius: 50%;
@@ -475,6 +486,7 @@
   <span id="musicLabel">🎵 Amor Completo
   </span>
   <select id="musicSelect" title="Choose a song"></select>
+  <button id="musicShuffle" title="Shuffle songs">🔀</button>
   <button id="musicNext">⏭️</button>
   <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5" />
 </div>
@@ -517,10 +529,10 @@
   <h2 style="color: #d63384;">One quick thing!</h2>
   <p style="color: #ad1457; font-size: 1.1em;">Did you like the message and the quiz?</p>
   <div id="feedbackArea">
-    <button id="yesBtn">Yes! </button>
+    <button id="yesBtn">Yes!</button>
     <button id="noBtn">No</button>
   </div>
-  <p style="color: #999; font-size: 0.85em; margin-top: 10px;">(the "No" button has a habit of running)</p>
+  <p style="color: #999; font-size: 0.85em; margin-top: 10px;">(the "No" button has a habit of running.)</p>
 </div>
 
 <div id="result">
@@ -531,7 +543,7 @@
   <p id="scoreText"></p>
   <div id="cakeSurprise" style="display:none; flex-direction: column; align-items: center; margin-top: 20px;">
     <img id="cakeImage" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExczJ5b3UyN3hka2xoeGRtNmEzeGdhMjAxeGttNzNqOTczeTg5Zm94dyZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/pNqUKvOlvIj3K1syOp/giphy.gif" alt="Pink Cake GIF" style="width: 150px; cursor: pointer; animation: bounce 1.2s infinite;" />
-    <p style="color: #d63384; font-weight: bold;">🎂 Click the guy who ate the cake! 🎂</p>
+    <p style="color: #d63384; font-weight: bold;">Click the guy who ate the cake!</p>
   </div>
   <div id="cakeMessage" style="display:none; background: #fff0f9; border: 2px dashed #ff69b4; padding: 15px 25px; border-radius: 12px; font-size: 1.1em; margin-top: 15px; max-width: 400px; text-align: center;">
     Woah you still know the answers! Too bad Usagi answered them first.. — Jose 
@@ -588,7 +600,7 @@
 </div>
 
 <div id="pongPage">
-  <h2 style="color: #4527a0;"> Birthday Pong! 🏓</h2>
+  <h2 style="color: #4527a0;">🏓 Birthday Pong! 🏓</h2>
   <p id="pongScoreText">You: 0  &nbsp;—&nbsp;  CPU: 0</p>
   <canvas id="pongCanvas" width="360" height="220"></canvas>
   <p id="pongHint">Rub your finger within the area to move your side. First to 5 wins!</p>
@@ -604,6 +616,7 @@
   const musicVolume = document.getElementById('musicVolume');
   const musicLabel = document.getElementById('musicLabel');
   const musicSelect = document.getElementById('musicSelect');
+  const musicShuffle = document.getElementById('musicShuffle');
   const bgMusic = document.getElementById('bgMusic');
   const bgMusicSource = document.getElementById('bgMusicSource');
 
@@ -663,9 +676,43 @@
     loadTrack(parseInt(musicSelect.value), true);
   };
 
+  musicShuffle.onclick = () => {
+    let randomIndex = currentTrack;
+    if (playlist.length > 1) {
+      while (randomIndex === currentTrack) {
+        randomIndex = Math.floor(Math.random() * playlist.length);
+      }
+    }
+    loadTrack(randomIndex, true);
+  };
+
   musicVolume.oninput = () => {
     bgMusic.volume = musicVolume.value;
   };
+
+  // try to start the music as soon as the page opens
+  function attemptAutoplay() {
+    const playPromise = bgMusic.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          musicToggle.textContent = '⏸️';
+        })
+        .catch(() => {
+          // browser blocked autoplay with sound; start on the first tap/click instead
+          musicToggle.textContent = '▶️';
+          const startOnFirstInteraction = () => {
+            bgMusic.play();
+            musicToggle.textContent = '⏸️';
+            document.removeEventListener('click', startOnFirstInteraction);
+            document.removeEventListener('touchstart', startOnFirstInteraction);
+          };
+          document.addEventListener('click', startOnFirstInteraction, { once: true });
+          document.addEventListener('touchstart', startOnFirstInteraction, { once: true });
+        });
+    }
+  }
+  window.addEventListener('DOMContentLoaded', attemptAutoplay);
 
   const startBtn = document.getElementById('startBtn');
   const card = document.getElementById('card');
@@ -956,9 +1003,10 @@
 
     const shuffledOptions = shuffle(q.options);
     
-    shuffledOptions.forEach(opt => {
+    shuffledOptions.forEach((opt, i) => {
       const btn = document.createElement('button');
       btn.textContent = opt;
+      btn.classList.add(i % 2 === 0 ? 'answer-teal' : 'answer-pink');
       btn.onclick = () => {
         disableButtons();
         if (opt === q.answer) {
